@@ -1,2 +1,2 @@
 # Project-Horror
-A horror video game project.
+A horror video game project about a fast food restaurant.
