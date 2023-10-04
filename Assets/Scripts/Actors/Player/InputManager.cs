@@ -4,7 +4,6 @@ using UnityEngine;
 
 namespace Horror.Player
 {
-
     /// <summary>
     /// This class is used by the player as its input manager, that will manage the player's inputs and call the adequate functions in other scripts
     /// </summary>

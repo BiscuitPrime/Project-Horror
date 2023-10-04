@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Horror.DEBUG;
 
 namespace Horror.Player
 {
@@ -13,6 +14,10 @@ namespace Horror.Player
         private readonly float _ySensitivity = 40f;
         #endregion
 
+        /// <summary>
+        /// Main function handling the looking done by the player
+        /// </summary>
+        /// <param name="input">the inputted values from the player inputs</param>
         public void Look(Vector2 input)
         {
             float mouseX = input.x;
@@ -31,7 +36,7 @@ namespace Horror.Player
         /// </summary>
         public void Interact()
         {
-            Debug.Log("[PLAYERLOOKMANAGER] : Interact button called");
+            LogManager.InfoLog(this.GetType(), "Interact button called");
         }
     }
 }
