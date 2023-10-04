@@ -14,7 +14,10 @@ namespace Horror.DEBUG
         {
             Debug.Log("[" + type.ToString() + "] : " + msg);
         }
-
+        public static void WarnLog(Type type, string msg) 
+        { 
+            Debug.LogWarning("[" + type.ToString() + "] : " + msg);
+        }
         public static void ErrorLog(Type type, string msg)
         {
             Debug.LogError("[" + type.ToString() + "] : " + msg);
