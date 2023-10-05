@@ -1,18 +1,33 @@
+using Horror.DEBUG;
+using Horror.Interactable;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Assertions;
 
-public class InteractionManager : MonoBehaviour
+namespace Horror.Player
 {
-    // Start is called before the first frame update
-    void Start()
+    public class InteractionManager : MonoBehaviour
     {
-        
-    }
+        [SerializeField] private GameObject _playerHand;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        private void Awake()
+        {
+            Assert.IsNotNull(_playerHand);
+        }
+
+        public void Interact(Camera cam)
+        {
+            Ray ray = new Ray(cam.transform.position, cam.transform.forward);
+            RaycastHit hit;
+            if (Physics.Raycast(ray, out hit, 100f))
+            {
+                LogManager.InfoLog(this.GetType(), "calling interaction with "+hit.transform.name);
+                if(hit.transform.gameObject.GetComponent<InteractableController>() != null && hit.transform.gameObject.GetComponent<InteractableController>().GetInteractableStatus())
+                {
+                    hit.transform.gameObject.GetComponent<InteractableController>().TriggerInteraction(_playerHand);
+                }
+            }
+        }
     }
 }
