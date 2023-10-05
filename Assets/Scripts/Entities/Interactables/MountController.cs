@@ -28,7 +28,7 @@ namespace Horror.Interactable
             {
                 if(playerHand.gameObject.GetComponentInChildren<PickableController>() is null)
                 {
-                    LogManager.ErrorLog(this.GetType(), "The player doesn't have any pickable controllers as children right now");
+                    LogManager.InfoLog(this.GetType(), "The player doesn't have any pickable controllers as children right now");
                 }
                 else
                 {
