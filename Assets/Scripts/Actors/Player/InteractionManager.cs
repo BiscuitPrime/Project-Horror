@@ -10,6 +10,7 @@ namespace Horror.Player
     public class InteractionManager : MonoBehaviour
     {
         [SerializeField] private GameObject _playerHand;
+        private bool _isHoldingSomething;
 
         private void Awake()
         {
@@ -25,7 +26,7 @@ namespace Horror.Player
                 LogManager.InfoLog(this.GetType(), "calling interaction with "+hit.transform.name);
                 if(hit.transform.gameObject.GetComponent<InteractableController>() != null && hit.transform.gameObject.GetComponent<InteractableController>().GetInteractableStatus())
                 {
-                    hit.transform.gameObject.GetComponent<InteractableController>().TriggerInteraction(_playerHand);
+                    hit.transform.gameObject.GetComponent<InteractableController>().TriggerInteraction(_playerHand, ref _isHoldingSomething);
                 }
             }
         }
