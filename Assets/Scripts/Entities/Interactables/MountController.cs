@@ -24,7 +24,7 @@ namespace Horror.Interactable
         public override void TriggerInteraction(GameObject playerHand, ref bool isPlayerHoldingSomething)
         {
             base.TriggerInteraction(playerHand, ref isPlayerHoldingSomething);
-            if (isPlayerHoldingSomething && _rider is null /*TODO : TEST IF SUITABLE TO MOUNT*/ ) //if the player is holding something, and that thing is suitable to ride the mount, then it is dropped on the mount
+            if (isPlayerHoldingSomething && _rider is null && playerHand.gameObject.GetComponentInChildren<PickableController>().gameObject != gameObject/*TODO : TEST IF SUITABLE TO MOUNT*/ ) //if the player is holding something, and that thing is suitable to ride the mount, then it is dropped on the mount
             {
                 if(playerHand.gameObject.GetComponentInChildren<PickableController>() is null)
                 {
@@ -32,6 +32,7 @@ namespace Horror.Interactable
                 }
                 else
                 {
+                    LogManager.InfoLog(this.GetType(), "Player mounting object " + playerHand.gameObject.GetComponentInChildren<PickableController>().gameObject + " on mount : " + this.gameObject);
                     _rider = playerHand.gameObject.GetComponentInChildren<PickableController>().gameObject;
                     _rider.transform.position = _ridePosition.transform.position;
                     _rider.transform.rotation = _ridePosition.transform.rotation;

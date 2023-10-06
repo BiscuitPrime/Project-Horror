@@ -26,7 +26,12 @@ namespace Horror.Player
                 LogManager.InfoLog(this.GetType(), "calling interaction with "+hit.transform.name);
                 if(hit.transform.gameObject.GetComponent<InteractableController>() != null && hit.transform.gameObject.GetComponent<InteractableController>().GetInteractableStatus())
                 {
-                    hit.transform.gameObject.GetComponent<InteractableController>().TriggerInteraction(_playerHand, ref _isHoldingSomething);
+                    InteractableController[] controllers = hit.transform.gameObject.GetComponents<InteractableController>(); //We are going to call one after the other all the interactable controllers present on the object
+                    //Indeed, mountable AND pickable objects existing, we need to handle all their cases, since the classes inheriting from InteractableController SHOULD handle the checks to ensure that the correct operation is done corresponding to the player's situation
+                    foreach(InteractableController controller in controllers)
+                    {
+                        controller.TriggerInteraction(_playerHand, ref _isHoldingSomething);
+                    }
                 }
             }
         }
