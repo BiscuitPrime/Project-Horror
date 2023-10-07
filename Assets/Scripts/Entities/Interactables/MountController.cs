@@ -15,6 +15,7 @@ namespace Horror.Interactable
     {
         [SerializeField, InspectorName("Ride position")] private GameObject _ridePosition;
         private GameObject _rider; //object that is currently riding the mount associated to this script
+        public GameObject GetRider() { return _rider; }
         
         private void Start()
         {
@@ -47,6 +48,12 @@ namespace Horror.Interactable
                     {
                         LogManager.InfoLog(this.GetType(), "Mount is a cooker : starting cooking");
                         GetComponent<CookerController>().StartCooking(_rider);
+                    }
+
+                    if(GetComponent<FoodAnalyserController>() !=null)
+                    {
+                        LogManager.InfoLog(this.GetType(), "Mount is an analyser : starting analyse");
+                        GetComponent<FoodAnalyserController>().StartAnalyse(_rider);
                     }
                 }
             }
