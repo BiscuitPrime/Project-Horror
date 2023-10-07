@@ -1,4 +1,5 @@
 using Horror.DEBUG;
+using Horror.Food;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -41,6 +42,12 @@ namespace Horror.Interactable
                     _rider.GetComponent<PickableController>().IsRiding = true;
                     _rider.GetComponent<PickableController>().Mount = this.gameObject;
                     _rider.GetComponent<InteractableController>().SetInteractableStatus(true); //TODO : MAYBE MOVE THIS SOMEWHERE ELSE => AFTER THE ACTION/SUBROUTINE THAT HANDLES THE OBJECT ONCE ON THE MOUNT
+                    
+                    if(GetComponent<CookerController>() !=null)
+                    {
+                        LogManager.InfoLog(this.GetType(), "Mount is a cooker : starting cooking");
+                        GetComponent<CookerController>().StartCooking(_rider);
+                    }
                 }
             }
         }
@@ -51,6 +58,11 @@ namespace Horror.Interactable
         public void EndRide()
         {
             _rider = null;
+            if (GetComponent<CookerController>() != null)
+            {
+                GetComponent<CookerController>().EndCooking();
+                GetComponent<CookerController>().Dismount();
+            }
         }
     }
 }

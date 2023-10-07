@@ -21,7 +21,7 @@ namespace Horror.Player
         {
             Ray ray = new Ray(cam.transform.position, cam.transform.forward);
             RaycastHit hit;
-            if (Physics.Raycast(ray, out hit, 100f))
+            if (Physics.Raycast(ray, out hit, 2f))
             {
                 LogManager.InfoLog(this.GetType(), "calling interaction with "+hit.transform.name);
                 if(hit.transform.gameObject.GetComponent<InteractableController>() != null && hit.transform.gameObject.GetComponent<InteractableController>().GetInteractableStatus())
