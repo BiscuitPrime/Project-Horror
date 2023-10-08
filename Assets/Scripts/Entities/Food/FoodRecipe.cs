@@ -12,6 +12,7 @@ namespace Horror.Food
         public FOOD_STATES FoodState;
     }
     
+    //TODO : RE-WRITE THAT WITH READONLY VERSION
     [CreateAssetMenu(fileName ="Recipe",menuName ="Scriptable Objects/Food/Recipe")]
     public class FoodRecipe : ScriptableObject
     {

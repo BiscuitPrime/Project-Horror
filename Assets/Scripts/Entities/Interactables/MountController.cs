@@ -70,6 +70,10 @@ namespace Horror.Interactable
                 GetComponent<CookerController>().EndCooking();
                 GetComponent<CookerController>().Dismount();
             }
+            if (GetComponent<FoodAnalyserController>() != null)
+            {
+                GetComponent<FoodAnalyserController>().EndAnalyse();
+            }
         }
     }
 }
