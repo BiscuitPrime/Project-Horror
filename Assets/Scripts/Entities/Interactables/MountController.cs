@@ -23,6 +23,13 @@ namespace Horror.Interactable
             _rider = null;
         }
 
+        /// <summary>
+        /// The main function of the mount controller.
+        /// Basically, upon being clicked by the player, it will detect wether or not the player is holding something.
+        /// If he is, then we correctly place the object on the mount, then trigger the appropriate behaviour if the mount is a cooker, analyser, drink machine etc
+        /// </summary>
+        /// <param name="playerHand">the player's hand, contains as a child the current object held by the player</param>
+        /// <param name="isPlayerHoldingSomething">the boolean passed as a REFERENCE from the player's script, that indicates to it wether or not the player holds something</param>
         public override void TriggerInteraction(GameObject playerHand, ref bool isPlayerHoldingSomething)
         {
             base.TriggerInteraction(playerHand, ref isPlayerHoldingSomething);
@@ -55,6 +62,12 @@ namespace Horror.Interactable
                         LogManager.InfoLog(this.GetType(), "Mount is an analyser : starting analyse");
                         GetComponent<FoodAnalyserController>().StartAnalyse(_rider);
                     }
+
+                    if(GetComponent<DrinkMachineController>() !=null)
+                    {
+                        LogManager.InfoLog(this.GetType(), "Mount is an drink machine : starting pouring");
+                        GetComponent<DrinkMachineController>().StartPouring(_rider);
+                    }
                 }
             }
         }
@@ -69,6 +82,11 @@ namespace Horror.Interactable
             {
                 GetComponent<CookerController>().EndCooking();
                 GetComponent<CookerController>().Dismount();
+            }
+            if(GetComponent<DrinkMachineController>() !=null)
+            {
+                GetComponent<DrinkMachineController>().EndPouring();
+                GetComponent<DrinkMachineController>().Dismount();
             }
             if (GetComponent<FoodAnalyserController>() != null)
             {

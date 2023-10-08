@@ -1,3 +1,4 @@
+using Horror.DEBUG;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,6 +12,13 @@ namespace Horror.Food
         FILLED
     }
 
+    public enum DRINKS_CONTENT
+    {
+        WATER,
+        SODA,
+        COFFEE
+    }
+
     /// <summary>
     /// Script used by the drinks, that operate slightly differently than foods : they can only have two states : empty or filled.
     /// </summary>
@@ -21,6 +29,7 @@ namespace Horror.Food
         [SerializeField, InspectorName("Filled State")] private GameObject _filledState;
         
         public DRINKS_STATES DrinkState { get; private set; }
+        public DRINKS_CONTENT DrinkContent { get; private set; }
         #endregion
 
         protected void Awake()
@@ -49,6 +58,12 @@ namespace Horror.Food
                     _filledState.SetActive(true);
                     break;
             }
+        }
+
+        public void ChangeDrinkContent(DRINKS_CONTENT content)
+        {
+            DrinkContent = content;
+            LogManager.InfoLog(this.GetType(), "Drink now contains content : " + DrinkContent);
         }
     }
 }
