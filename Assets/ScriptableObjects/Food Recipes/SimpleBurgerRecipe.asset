@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d1034ffffc5b7264589745d174e92ebc, type: 3}
+  m_Name: SimpleBurgerRecipe
+  m_EditorClassIdentifier: 
+  _foodPile:
+  - Food: {fileID: 6005852036606076360, guid: d38f7cb085d26fe4695bb875b354095d, type: 3}
+    FoodState: 0
+  - Food: {fileID: 4744693763397787154, guid: 9e4e8241920bb384c8bc6013566fa333, type: 3}
+    FoodState: 1
+  - Food: {fileID: 19652245808040252, guid: de0683e0124b2124db1966dd3c59f601, type: 3}
+    FoodState: 0

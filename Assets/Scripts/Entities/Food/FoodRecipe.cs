@@ -12,10 +12,16 @@ namespace Horror.Food
         public FOOD_STATES FoodState;
     }
     
-    //TODO : RE-WRITE THAT WITH READONLY VERSION
-    [CreateAssetMenu(fileName ="Recipe",menuName ="Scriptable Objects/Food/Recipe")]
-    public class FoodRecipe : ScriptableObject
+    public abstract class ReadOnlyFoodRecipe : ScriptableObject
     {
-        [SerializeField] public FoodItemType[] FoodPile;
+        public abstract FoodItemType[] FoodPile { get; }
+    }
+
+    [CreateAssetMenu(fileName ="Recipe",menuName ="Scriptable Objects/Food/Recipe")]
+    public class FoodRecipe : ReadOnlyFoodRecipe
+    {
+        [SerializeField, InspectorName("Food Pile")] private FoodItemType[] _foodPile;
+
+        public override FoodItemType[] FoodPile => _foodPile;
     }
 }
