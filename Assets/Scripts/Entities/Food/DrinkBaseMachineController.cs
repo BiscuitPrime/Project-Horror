@@ -6,9 +6,12 @@ using UnityEngine;
 
 namespace Horror.Food
 {
-    public class DrinkMachineController : MonoBehaviour
+    /// <summary>
+    /// Script used by machines that serve the base of a drink
+    /// </summary>
+    public class DrinkBaseMachineController : MonoBehaviour
     {
-        [SerializeField,InspectorName("Content of the drink")] private DRINKS_CONTENT _content = DRINKS_CONTENT.WATER; //the content that will be poured by the drink machine, by default water
+        [SerializeField,InspectorName("Base of the drink")] private DRINKS_BASE _content = DRINKS_BASE.WATER; //the content that will be poured by the drink machine, by default water
         protected GameObject _rider; //the drink riding on the current mount
 
         /// <summary>
@@ -54,7 +57,7 @@ namespace Horror.Food
             LogManager.InfoLog(this.GetType(), "Pouring drink to state : " + newDrinkState.ToString());
             yield return new WaitForSeconds(3f);
             _rider.GetComponent<DrinksController>().ChangeDrinkState(newDrinkState);
-            _rider.GetComponent<DrinksController>().ChangeDrinkContent(_content);
+            _rider.GetComponent<DrinksController>().ChangeDrinkBase(_content);
             LogManager.InfoLog(this.GetType(), "Drink POURED to state : " + newDrinkState.ToString());
         }
     }

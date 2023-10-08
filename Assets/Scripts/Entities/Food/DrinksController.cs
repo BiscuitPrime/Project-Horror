@@ -12,11 +12,23 @@ namespace Horror.Food
         FILLED
     }
 
-    public enum DRINKS_CONTENT
+    /// <summary>
+    /// Base of the drink
+    /// </summary>
+    public enum DRINKS_BASE
     {
         WATER,
         SODA,
         COFFEE
+    }
+
+    /// <summary>
+    /// Contents that can be added to a drink, when a base has been added
+    /// </summary>
+    public enum DRINKS_CONTENT
+    {
+        CHOCOLATE_CHIPS,
+        CREAM
     }
 
     /// <summary>
@@ -29,7 +41,8 @@ namespace Horror.Food
         [SerializeField, InspectorName("Filled State")] private GameObject _filledState;
         
         public DRINKS_STATES DrinkState { get; private set; }
-        public DRINKS_CONTENT DrinkContent { get; private set; }
+        public DRINKS_BASE DrinkBase { get; private set; } //The base of the drink, that will form the basis of the drink. The player can add more stuff => the drinks_content
+        [SerializeField] public List<DRINKS_CONTENT> DrinkContents { get; private set; }
         #endregion
 
         protected void Awake()
@@ -37,6 +50,7 @@ namespace Horror.Food
             Assert.IsNotNull(_emptyState);
             Assert.IsNotNull(_filledState);
             ChangeDrinkState(DRINKS_STATES.EMPTY);
+            DrinkContents = new List<DRINKS_CONTENT>();
         }
 
         public void ChangeDrinkState(DRINKS_STATES newState)
@@ -60,10 +74,27 @@ namespace Horror.Food
             }
         }
 
-        public void ChangeDrinkContent(DRINKS_CONTENT content)
+        /// <summary>
+        /// Function to change the base of a drink.
+        /// </summary>
+        /// <param name="drinkBase"></param>
+        public void ChangeDrinkBase(DRINKS_BASE drinkBase)
         {
-            DrinkContent = content;
-            LogManager.InfoLog(this.GetType(), "Drink now contains content : " + DrinkContent);
+            DrinkBase = drinkBase;
+            LogManager.InfoLog(this.GetType(), "Drink now contains base : " + DrinkBase);
+        }
+
+        /// <summary>
+        /// Function to add a content to a drink (will only add one version of that content)
+        /// </summary>
+        /// <param name="content"></param>
+        public void AddContentToDrink(DRINKS_CONTENT content)
+        {
+            if (!DrinkContents.Contains(content)) //to alleviate missclicks and other shits like that, players can only add content ONCE
+            {
+                LogManager.InfoLog(this.GetType(), "Drink now contains content : " + content);
+                DrinkContents.Add(content);
+            }
         }
     }
 }

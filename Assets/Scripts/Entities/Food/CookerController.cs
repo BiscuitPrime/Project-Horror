@@ -58,7 +58,7 @@ namespace Horror.Food
         /// </summary>
         /// <param name="newFoodState"></param>
         /// <returns></returns>
-        protected IEnumerator Cook(FOOD_STATES newFoodState) //TODO : SHOULD HANDLE THE CASE OF FOOD REMOVED BEFORE COOKING IS DONE
+        protected IEnumerator Cook(FOOD_STATES newFoodState) 
         {
             LogManager.InfoLog(this.GetType(),"Cooking food to state : "+newFoodState.ToString());
             yield return new WaitForSeconds(3f);

@@ -51,6 +51,9 @@ namespace Horror.Interactable
                     _rider.GetComponent<PickableController>().Mount = this.gameObject;
                     _rider.GetComponent<InteractableController>().SetInteractableStatus(true); //TODO : MAYBE MOVE THIS SOMEWHERE ELSE => AFTER THE ACTION/SUBROUTINE THAT HANDLES THE OBJECT ONCE ON THE MOUNT
                     
+
+                    //TODO : THE FOLLOWING BULLSHIT COULD BE WAAAAY BETTER HANDLED => PERHAPS WITH TEMPLATES OR INHERITED FUNCTIONS ?
+                    //   => TO INVESTIGATE
                     if(GetComponent<CookerController>() !=null)
                     {
                         LogManager.InfoLog(this.GetType(), "Mount is a cooker : starting cooking");
@@ -63,10 +66,16 @@ namespace Horror.Interactable
                         GetComponent<FoodAnalyserController>().StartAnalyse(_rider);
                     }
 
-                    if(GetComponent<DrinkMachineController>() !=null)
+                    if(GetComponent<DrinkBaseMachineController>() !=null)
                     {
                         LogManager.InfoLog(this.GetType(), "Mount is an drink machine : starting pouring");
-                        GetComponent<DrinkMachineController>().StartPouring(_rider);
+                        GetComponent<DrinkBaseMachineController>().StartPouring(_rider);
+                    }
+
+                    if (GetComponent<DrinkContentMachineController>() != null)
+                    {
+                        LogManager.InfoLog(this.GetType(), "Mount is an drink content machine : starting pouring");
+                        GetComponent<DrinkContentMachineController>().StartPouring(_rider);
                     }
                 }
             }
@@ -83,10 +92,15 @@ namespace Horror.Interactable
                 GetComponent<CookerController>().EndCooking();
                 GetComponent<CookerController>().Dismount();
             }
-            if(GetComponent<DrinkMachineController>() !=null)
+            if(GetComponent<DrinkBaseMachineController>() !=null)
             {
-                GetComponent<DrinkMachineController>().EndPouring();
-                GetComponent<DrinkMachineController>().Dismount();
+                GetComponent<DrinkBaseMachineController>().EndPouring();
+                GetComponent<DrinkBaseMachineController>().Dismount();
+            }
+            if (GetComponent<DrinkContentMachineController>() != null)
+            {
+                GetComponent<DrinkContentMachineController>().EndPouring();
+                GetComponent<DrinkContentMachineController>().Dismount();
             }
             if (GetComponent<FoodAnalyserController>() != null)
             {
