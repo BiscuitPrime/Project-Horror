@@ -25,12 +25,13 @@ namespace Horror.Food
         [SerializeField, InspectorName("Raw")] private GameObject _rawState;
         [SerializeField, InspectorName("Cooked")] private GameObject _cookedState;
         [SerializeField, InspectorName("Overdone")] private GameObject _overdoneState;
-        #endregion
 
         /// <summary>
         /// State of the food. Can be changed through ChangeFoodState(FOOD_STATES)
         /// </summary>
         public FOOD_STATES FoodState { get; private set; } //the setter of the food state should only be done through the ChangeFoodState function
+        #endregion
+
 
         protected void Awake()
         {
