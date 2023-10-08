@@ -12,15 +12,6 @@ namespace Horror.Food
         FILLED
     }
 
-    /// <summary>
-    /// Base of the drink
-    /// </summary>
-    public enum DRINKS_BASE
-    {
-        WATER,
-        SODA,
-        COFFEE
-    }
 
     /// <summary>
     /// Contents that can be added to a drink, when a base has been added
@@ -34,6 +25,7 @@ namespace Horror.Food
     /// <summary>
     /// Script used by the drinks, that operate slightly differently than foods : they can only have two states : empty or filled.
     /// </summary>
+    [RequireComponent(typeof(DrinkBasePickerController))]
     public class DrinksController : MonoBehaviour //TODO : REWORK THIS AS TO MAKE IT INHERIT FROM A SINGLE CLASS WITH FOODCONTROLLER TO AVOID HAVING BASICALLY THE SAME SHIT
     {
         #region VARIABLES

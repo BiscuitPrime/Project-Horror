@@ -56,8 +56,10 @@ namespace Horror.Food
         {
             LogManager.InfoLog(this.GetType(), "Pouring drink to state : " + newDrinkState.ToString());
             yield return new WaitForSeconds(3f);
-            _rider.GetComponent<DrinksController>().ChangeDrinkState(newDrinkState);
-            _rider.GetComponent<DrinksController>().ChangeDrinkBase(_content);
+            DrinksController drinksController = _rider.GetComponent<DrinksController>();
+            drinksController.ChangeDrinkState(newDrinkState);
+            drinksController.ChangeDrinkBase(_content);
+            _rider.GetComponent<DrinkBasePickerController>().ChangeDrinkBase(_content);
             LogManager.InfoLog(this.GetType(), "Drink POURED to state : " + newDrinkState.ToString());
         }
     }
