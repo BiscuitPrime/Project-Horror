@@ -23,6 +23,12 @@ namespace Horror.Interactable
 
         public void StartAnalyse(GameObject food)
         {
+            if(food.GetComponent<DrinksController>() != null)
+            {
+                StartAnalyseDrink(food);
+                return;
+            }
+
             GameObject curFood = food;
             _foodPile = new List<GameObject>();
             while (curFood.GetComponent<MountController>() != null)
@@ -60,6 +66,10 @@ namespace Horror.Interactable
             }
         }
 
+        /// <summary>
+        /// Function that will 
+        /// </summary>
+        /// <returns></returns>
         private bool IsFoodPileCorrectRecipe()
         {
             for (int i = 0; i < _foodPile.Count; i++)
@@ -80,6 +90,12 @@ namespace Horror.Interactable
                 }
             }
             return true;
+        }
+
+        private void StartAnalyseDrink(GameObject drink)
+        {
+            LogManager.InfoLog(this.GetType(), "Object mounted is a drink : starting analyse of the drink");
+            DrinksController controller = drink.GetComponent<DrinksController>();
         }
 
         public void EndAnalyse()
