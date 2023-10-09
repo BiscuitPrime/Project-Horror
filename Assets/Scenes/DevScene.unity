@@ -2267,6 +2267,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _wantedRecipe: {fileID: 11400000, guid: 47990f31027b2b4439d50c62dec2891c, type: 2}
+  _wantedDrinkRecipe: {fileID: 11400000, guid: be9dea2398abb7940bbddedcae12b245, type: 2}
 --- !u!1 &1978698126
 GameObject:
   m_ObjectHideFlags: 0

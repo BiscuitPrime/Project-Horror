@@ -14,6 +14,7 @@ namespace Horror.Interactable
     public class FoodAnalyserController : MonoBehaviour
     {
         [SerializeField] private FoodRecipe _wantedRecipe;
+        [SerializeField] private DrinkRecipe _wantedDrinkRecipe;
         private List<GameObject> _foodPile;
 
         private void Awake()
@@ -25,8 +26,16 @@ namespace Horror.Interactable
         {
             if(food.GetComponent<DrinksController>() != null)
             {
-                StartAnalyseDrink(food);
-                return;
+                if (StartAnalyseDrink(food))
+                {
+                    LogManager.InfoLog(this.GetType(), "GOOD DRINK RECIPE"); 
+                    return;
+                }
+                else
+                {
+                    LogManager.InfoLog(this.GetType(), "WRONG DRINK RECIPE");
+                    return;
+                }
             }
 
             GameObject curFood = food;
@@ -92,10 +101,24 @@ namespace Horror.Interactable
             return true;
         }
 
-        private void StartAnalyseDrink(GameObject drink)
+        private bool StartAnalyseDrink(GameObject drink)
         {
             LogManager.InfoLog(this.GetType(), "Object mounted is a drink : starting analyse of the drink");
             DrinksController controller = drink.GetComponent<DrinksController>();
+            if(controller.DrinkBase != _wantedDrinkRecipe.DrinkRecipeData.Base)
+            {
+                LogManager.InfoLog(this.GetType(), "Drink base is incorrect");
+                return false;
+            }
+            foreach(var content in _wantedDrinkRecipe.DrinkRecipeData.Content)
+            {
+                if (!controller.DrinkContents.Contains(content))
+                {
+                    LogManager.InfoLog(this.GetType(), "Drink content : "+content.ToString() +" is not present");
+                    return false;
+                }
+            }
+            return true;
         }
 
         public void EndAnalyse()

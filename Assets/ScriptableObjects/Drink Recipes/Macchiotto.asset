@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Macchiotto
   m_EditorClassIdentifier: 
   _drinkData:
-    Content: 0000000001000000
+    Content: 00000000
     Base: 2
