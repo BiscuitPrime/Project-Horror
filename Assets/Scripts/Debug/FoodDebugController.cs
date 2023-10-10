@@ -5,6 +5,9 @@ using UnityEngine;
 
 namespace Horror.DEBUG
 {
+    /// <summary>
+    /// Simple debug script to easily change the state of a food object (FOR DEBUG PURPOSES ONLY, SHOULD BE REMOVED ONCE GAME IS DONE)
+    /// </summary>
     public class FoodDebugController : MonoBehaviour
     {
         [SerializeField] private bool changeStateToRaw = false;

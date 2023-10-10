@@ -5,6 +5,9 @@ using UnityEngine;
 
 namespace Horror.Interactable
 {
+    /// <summary>
+    /// Script used by trash objects that will delete out of existence all pickable-type objects that the player carry
+    /// </summary>
     public class TrashController : InteractableController
     {
         public override void TriggerInteraction(GameObject playerHand, ref bool isPlayerHoldingSomething)

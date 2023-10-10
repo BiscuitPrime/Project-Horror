@@ -22,7 +22,7 @@ namespace Horror.Interactable
             _foodPile = new List<GameObject>();
         }
 
-        public void StartAnalyse(GameObject food)
+        public void StartAnalyse(GameObject food) //This whole function is ugly : TODO : REWORK THAT FUNCTION TO BEMORE MODULAR/CLEAN
         {
             if(food.GetComponent<DrinksController>() != null)
             {

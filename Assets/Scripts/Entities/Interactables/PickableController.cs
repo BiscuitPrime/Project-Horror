@@ -19,7 +19,7 @@ namespace Horror.Interactable
             if (!isPlayerHoldingSomething) //if the player is already holding something, we do not take the object again
             {
                 LogManager.InfoLog(this.GetType(),"Taking object in player hand !");
-                if(IsRiding)
+                if(IsRiding) //If the object was riding a mount, since it's the player that takes it, it informs the mount that it is being taken (and as such, the mount ends the ride)
                 {
                     Mount.GetComponent<MountController>().EndRide();
                 }
