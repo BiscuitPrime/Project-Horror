@@ -60,10 +60,10 @@ namespace Horror.Interactable
                         GetComponent<CookerController>().StartCooking(_rider);
                     }
 
-                    if(GetComponent<FoodAnalyserController>() !=null)
+                    if(GetComponent<FoodDrinkAnalyserController>() !=null)
                     {
                         LogManager.InfoLog(this.GetType(), "Mount is an analyser : starting analyse");
-                        GetComponent<FoodAnalyserController>().StartAnalyse(_rider);
+                        GetComponent<FoodDrinkAnalyserController>().StartAnalyse(_rider);
                     }
 
                     if(GetComponent<DrinkBaseMachineController>() !=null)
@@ -102,9 +102,9 @@ namespace Horror.Interactable
                 GetComponent<DrinkContentMachineController>().EndPouring();
                 GetComponent<DrinkContentMachineController>().Dismount();
             }
-            if (GetComponent<FoodAnalyserController>() != null)
+            if (GetComponent<FoodDrinkAnalyserController>() != null)
             {
-                GetComponent<FoodAnalyserController>().EndAnalyse();
+                GetComponent<FoodDrinkAnalyserController>().EndAnalyse();
             }
         }
     }

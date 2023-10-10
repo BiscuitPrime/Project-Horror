@@ -11,9 +11,9 @@ namespace Horror.Interactable
     /// <summary>
     /// Script used by mount objects that will analyse the food and determine if it's in adequation with the wanted recipe
     /// </summary>
-    public class FoodAnalyserController : MonoBehaviour
+    public class FoodDrinkAnalyserController : MonoBehaviour
     {
-        [SerializeField] private FoodRecipe _wantedRecipe;
+        [SerializeField] private FoodRecipe[] _wantedRecipes;
         [SerializeField] private DrinkRecipe _wantedDrinkRecipe;
         private List<GameObject> _foodPile;
 
@@ -58,40 +58,43 @@ namespace Horror.Interactable
                 _foodPile.Add(curFood);
             }
             
-            LogManager.InfoLog(this.GetType(), "Comparing with recipe :");
-            if(_wantedRecipe.FoodPile.Length != _foodPile.Count)
+            LogManager.InfoLog(this.GetType(), "Comparing with wanted recipes :");
+            foreach(FoodRecipe recipe in _wantedRecipes) //we compare for each recipe we have stored in the wanted recipes
             {
-                LogManager.InfoLog(this.GetType(), "FoodPile and recipe do not have same amount of stuff : "+ _wantedRecipe.FoodPile.Length+" and foodpile : "+_foodPile.Count);
-                LogManager.InfoLog(this.GetType(), "WRONG RECIPE");
-                return;
-            }
-            else
-            {
-                if (IsFoodPileCorrectRecipe())
+                if(recipe.FoodPile.Length != _foodPile.Count)
                 {
-                    LogManager.InfoLog(this.GetType(), "GOOD RECIPE");
-                    return;
+                    LogManager.InfoLog(this.GetType(), "FoodPile and recipe do not have same amount of stuff : "+ recipe.FoodPile.Length+" and foodpile : "+_foodPile.Count);
+                }
+                else
+                {
+                    if (IsFoodPileCorrectRecipe(recipe))
+                    {
+                        LogManager.InfoLog(this.GetType(), "GOOD RECIPE FOUND : "+recipe.name);
+                        return;
+                    }
                 }
             }
+            LogManager.InfoLog(this.GetType(), "NO CORRECT RECIPES FOUND");
+            return;
         }
 
         /// <summary>
         /// Function that will 
         /// </summary>
         /// <returns></returns>
-        private bool IsFoodPileCorrectRecipe()
+        private bool IsFoodPileCorrectRecipe(FoodRecipe recipe)
         {
             for (int i = 0; i < _foodPile.Count; i++)
             {
-                LogManager.InfoLog(this.GetType(), "Comparing : " + _foodPile[i].name + " with : " + _wantedRecipe.FoodPile[i].Food.name);
-                if (_foodPile[i].name != _wantedRecipe.FoodPile[i].Food.name) //First, we test the names : if they are the same, we go on, otherwise we end it here
+                LogManager.InfoLog(this.GetType(), "Comparing : " + _foodPile[i].name + " with : " + recipe.FoodPile[i].Food.name);
+                if (_foodPile[i].name != recipe.FoodPile[i].Food.name) //First, we test the names : if they are the same, we go on, otherwise we end it here
                 {
                     LogManager.InfoLog(this.GetType(), "WRONG RECIPE");
                     return false;
                 }
                 if (_foodPile[i].GetComponent<FoodController>()!=null)//if the item is a cookable food, we check that it is correctly cooked
                 {
-                    if(_foodPile[i].GetComponent<FoodController>().FoodState != _wantedRecipe.FoodPile[i].FoodState)
+                    if(_foodPile[i].GetComponent<FoodController>().FoodState != recipe.FoodPile[i].FoodState)
                     {
                         LogManager.InfoLog(this.GetType(), "WRONG RECIPE");
                         return false;
