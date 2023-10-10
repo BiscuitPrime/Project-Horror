@@ -1,3 +1,4 @@
+using Horror.DEBUG;
 using Horror.Interactable;
 using Horror.Player;
 using System.Collections;
@@ -26,8 +27,11 @@ namespace Horror.Clients
         /// </summary>
         public void TransmitOrderToCounter()
         {
+            LogManager.InfoLog(this.GetType(), "Transmitting order to counter");
             _counter = GameManager.Instance.GetCounter();
             FoodDrinkAnalyserController controller = _counter.GetComponent<FoodDrinkAnalyserController>();
+            controller.SetDrinkRecipes(_order.DrinkItems);
+            controller.SetFoodRecipes(_order.FoodItems);
         }
 
     }

@@ -8,14 +8,20 @@ namespace Horror.DEBUG
     [RequireComponent(typeof(ClientController))]
     public class ClientDebugController : MonoBehaviour
     {
-        [SerializeField] private bool _requestOrder;
+        [SerializeField] private bool _logOrder;
+        [SerializeField] private bool _transmitOrder;
 
         private void Update()
         {
-            if (_requestOrder)
+            if (_logOrder)
             {
                 LogCurrentOrder(GetComponent<ClientController>().GetCurrentOrder());
-                _requestOrder = false;
+                _logOrder = false;
+            }
+            if (_transmitOrder)
+            {
+                GetComponent<ClientController>().TransmitOrderToCounter();
+                _transmitOrder = false;
             }
         }
 
