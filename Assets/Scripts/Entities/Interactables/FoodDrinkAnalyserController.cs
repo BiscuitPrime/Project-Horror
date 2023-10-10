@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
+using UnityEngine.InputSystem.XR;
 
 namespace Horror.Interactable
 {
@@ -13,13 +14,22 @@ namespace Horror.Interactable
     /// </summary>
     public class FoodDrinkAnalyserController : MonoBehaviour
     {
-        [SerializeField] private FoodRecipe[] _wantedRecipes;
-        [SerializeField] private DrinkRecipe _wantedDrinkRecipe;
+        [SerializeField] private FoodRecipe[] _wantedFoodRecipes;
+        [SerializeField] private DrinkRecipe[] _wantedDrinkRecipe;
         private List<GameObject> _foodPile;
 
         private void Awake()
         {
             _foodPile = new List<GameObject>();
+        }
+
+        public void SetFoodRecipes(FoodRecipe[] foodRecipes)
+        {
+            _wantedFoodRecipes = foodRecipes;
+        }
+        public void SetDrinkRecipes(DrinkRecipe[] drinkRecipes)
+        {
+            _wantedDrinkRecipe = drinkRecipes;
         }
 
         public void StartAnalyse(GameObject food) //This whole function is ugly : TODO : REWORK THAT FUNCTION TO BEMORE MODULAR/CLEAN
@@ -28,12 +38,12 @@ namespace Horror.Interactable
             {
                 if (StartAnalyseDrink(food))
                 {
-                    LogManager.InfoLog(this.GetType(), "GOOD DRINK RECIPE"); 
+                    LogManager.InfoLog(this.GetType(), "GOOD DRINK RECIPE FOUND");
                     return;
                 }
                 else
                 {
-                    LogManager.InfoLog(this.GetType(), "WRONG DRINK RECIPE");
+                    LogManager.InfoLog(this.GetType(), "NO DRINK RECIPE FOUND");
                     return;
                 }
             }
@@ -59,7 +69,7 @@ namespace Horror.Interactable
             }
             
             LogManager.InfoLog(this.GetType(), "Comparing with wanted recipes :");
-            foreach(FoodRecipe recipe in _wantedRecipes) //we compare for each recipe we have stored in the wanted recipes
+            foreach(FoodRecipe recipe in _wantedFoodRecipes) //we compare for each recipe we have stored in the wanted recipes
             {
                 if(recipe.FoodPile.Length != _foodPile.Count)
                 {
@@ -108,16 +118,29 @@ namespace Horror.Interactable
         {
             LogManager.InfoLog(this.GetType(), "Object mounted is a drink : starting analyse of the drink");
             DrinksController controller = drink.GetComponent<DrinksController>();
-            if(controller.DrinkBase != _wantedDrinkRecipe.DrinkRecipeData.Base)
+            foreach (var recipe in _wantedDrinkRecipe)
+            {
+                if(CompareDrinks(recipe, controller)) //if one recipe corresponds to the drink, we're good
+                {
+                    LogManager.InfoLog(this.GetType(), "Found corresponding drink recipe : " + recipe.name);
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        private bool CompareDrinks(DrinkRecipe recipe, DrinksController drinkController)
+        {
+            if (drinkController.DrinkBase != recipe.DrinkRecipeData.Base)
             {
                 LogManager.InfoLog(this.GetType(), "Drink base is incorrect");
                 return false;
             }
-            foreach(var content in _wantedDrinkRecipe.DrinkRecipeData.Content)
+            foreach (var content in recipe.DrinkRecipeData.Content)
             {
-                if (!controller.DrinkContents.Contains(content))
+                if (!drinkController.DrinkContents.Contains(content))
                 {
-                    LogManager.InfoLog(this.GetType(), "Drink content : "+content.ToString() +" is not present");
+                    LogManager.InfoLog(this.GetType(), "Drink content : " + content.ToString() + " is not present");
                     return false;
                 }
             }

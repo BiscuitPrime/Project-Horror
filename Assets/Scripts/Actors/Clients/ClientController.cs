@@ -1,3 +1,5 @@
+using Horror.Interactable;
+using Horror.Player;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,6 +13,7 @@ namespace Horror.Clients
     {
         #region VARIABLES
         [SerializeField, InspectorName("Order")] private ClientOrder _order;
+        private GameObject _counter;
         #endregion
 
         public ClientOrder GetCurrentOrder() { return _order; }
@@ -23,7 +26,8 @@ namespace Horror.Clients
         /// </summary>
         public void TransmitOrderToCounter()
         {
-
+            _counter = GameManager.Instance.GetCounter();
+            FoodDrinkAnalyserController controller = _counter.GetComponent<FoodDrinkAnalyserController>();
         }
 
     }

@@ -1809,7 +1809,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: c7a945b6697ade14fa17992ea19eace3, type: 2}
+  - {fileID: 2100000, guid: 593c4f4e90d93304e8ee9f517b213322, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1922,7 +1922,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 89a5369aa40ccc345956f912c2d5ac21, type: 2}
+  - {fileID: 2100000, guid: 5f08a1796d513a14984271f0ff5e3689, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2061,7 +2061,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 5f08a1796d513a14984271f0ff5e3689, type: 2}
+  - {fileID: 2100000, guid: c7a945b6697ade14fa17992ea19eace3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2325,10 +2325,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 95936d37019fb1c4caef8d5a36ac2a5b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _wantedRecipes:
-  - {fileID: 11400000, guid: 47990f31027b2b4439d50c62dec2891c, type: 2}
+  _wantedFoodRecipes:
   - {fileID: 11400000, guid: 99c30f0ca89aa2148a814c6732f726c2, type: 2}
-  _wantedDrinkRecipe: {fileID: 11400000, guid: be9dea2398abb7940bbddedcae12b245, type: 2}
+  - {fileID: 11400000, guid: 47990f31027b2b4439d50c62dec2891c, type: 2}
+  _wantedDrinkRecipe:
+  - {fileID: 11400000, guid: 17582dcdf0c45d844b6594ee335dc15f, type: 2}
+  - {fileID: 11400000, guid: be9dea2398abb7940bbddedcae12b245, type: 2}
 --- !u!1 &1978698126
 GameObject:
   m_ObjectHideFlags: 0
