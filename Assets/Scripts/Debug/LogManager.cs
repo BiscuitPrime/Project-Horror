@@ -22,5 +22,10 @@ namespace Horror.DEBUG
         {
             Debug.LogError("[" + type.ToString() + "] : " + msg);
         }
+        public static void CriticalLog(Type type, string msg)
+        {
+            Debug.LogError("[" + type.ToString() + "] : == CRITICAL ERROR == :" + msg);
+            Application.Quit();
+        }
     }
 }

@@ -16,7 +16,12 @@ namespace Horror.Clients
         public ClientOrder GetCurrentOrder() { return _order; }
         public void SetCurrentOrder(ClientOrder order) { _order = order; }
 
-        public void RequestOrder()
+        /// <summary>
+        /// This function will transmit the client's order to the counter, which will act as the main interface player-client
+        /// The player will drop the food/drink on the counter, that is a FoodDrinkAnalyser, and if said food/drink is valid according to the client's order
+        /// => analyser transmits success to the ClientController
+        /// </summary>
+        public void TransmitOrderToCounter()
         {
 
         }
