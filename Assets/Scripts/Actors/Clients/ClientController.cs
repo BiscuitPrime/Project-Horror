@@ -9,7 +9,17 @@ namespace Horror.Clients
     /// </summary>
     public class ClientController : MonoBehaviour
     {
+        #region VARIABLES
+        [SerializeField, InspectorName("Order")] private ClientOrder _order;
+        #endregion
 
-        
+        public ClientOrder GetCurrentOrder() { return _order; }
+        public void SetCurrentOrder(ClientOrder order) { _order = order; }
+
+        public void RequestOrder()
+        {
+
+        }
+
     }
 }
