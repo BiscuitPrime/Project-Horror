@@ -38,27 +38,8 @@ namespace Horror.Interactable
             _curClient = client;
         }
 
-        public void StartAnalyse(GameObject food) //This whole function is ugly : TODO : REWORK THAT FUNCTION TO BEMORE MODULAR/CLEAN
+        private void AcquireFoodPile(GameObject food)
         {
-            //NEW :
-
-
-
-            // OLD : 
-            if(food.GetComponent<DrinksController>() != null)
-            {
-                if (StartAnalyseDrink(food))
-                {
-                    LogManager.InfoLog(this.GetType(), "GOOD DRINK RECIPE FOUND");
-                    return;
-                }
-                else
-                {
-                    LogManager.InfoLog(this.GetType(), "NO DRINK RECIPE FOUND");
-                    return;
-                }
-            }
-
             GameObject curFood = food;
             _foodPile = new List<GameObject>();
             while (curFood.GetComponent<MountController>() != null)
@@ -74,29 +55,58 @@ namespace Horror.Interactable
                     break;
                 }
             }
-            if(curFood != null)
+            if (curFood != null)
             {
                 _foodPile.Add(curFood);
             }
-            
-            LogManager.InfoLog(this.GetType(), "Comparing with wanted recipes :");
-            foreach(FoodRecipe recipe in _wantedFoodRecipes) //we compare for each recipe we have stored in the wanted recipes
+        }
+
+        public void StartAnalyse(GameObject food) //This whole function is ugly : TODO : REWORK THAT FUNCTION TO BEMORE MODULAR/CLEAN
+        {
+            //NEW :
+            //We start by testing the drink type recipe :
+            if (food.GetComponent<DrinksController>() != null)
             {
-                if(recipe.FoodPile.Length != _foodPile.Count)
+                LogManager.InfoLog(this.GetType(), "Food is drink : comparing recipes...");
+                DrinksController controller = food.GetComponent<DrinksController>();
+                foreach (DrinkRecipe drinkRecipe in _wantedDrinkRecipe)
                 {
-                    LogManager.InfoLog(this.GetType(), "FoodPile and recipe do not have same amount of stuff : "+ recipe.FoodPile.Length+" and foodpile : "+_foodPile.Count);
+                    if (CompareDrinks(drinkRecipe, controller)) //if one recipe corresponds to the drink, we're good
+                    {
+                        LogManager.InfoLog(this.GetType(), "Found corresponding drink recipe : " + drinkRecipe.name);
+                        _curClient.ReceiveCorrectOrderFromCounter(drinkRecipe, food);
+                        return;
+                    }
+                }
+                LogManager.InfoLog(this.GetType(), "NO CORRECT RECIPES FOUND");
+                _curClient.ReceiveIncorrectOrderFromCounter();
+                return;
+            }
+
+            //we then acquire the food pile :
+            AcquireFoodPile(food);
+
+            //we then test the food type recipe :
+            foreach (FoodRecipe recipe in _wantedFoodRecipes) //we compare for each recipe we have stored in the wanted recipes
+            {
+                if (recipe.FoodPile.Length != _foodPile.Count)
+                {
+                    LogManager.InfoLog(this.GetType(), "FoodPile and recipe do not have same amount of stuff : " + recipe.FoodPile.Length + " and foodpile : " + _foodPile.Count);
+                    _curClient.ReceiveIncorrectOrderFromCounter();
+                    return;
                 }
                 else
                 {
                     if (IsFoodPileCorrectRecipe(recipe))
                     {
-                        LogManager.InfoLog(this.GetType(), "GOOD RECIPE FOUND : "+recipe.name);
-                        _curClient.ReceiveOrderFromCounter(recipe);
+                        LogManager.InfoLog(this.GetType(), "GOOD RECIPE FOUND : " + recipe.name);
+                        _curClient.ReceiveCorrectOrderFromCounter(recipe, food);
                         return;
                     }
                 }
             }
             LogManager.InfoLog(this.GetType(), "NO CORRECT RECIPES FOUND");
+            _curClient.ReceiveIncorrectOrderFromCounter();
             return;
         }
 
@@ -124,21 +134,6 @@ namespace Horror.Interactable
                 }
             }
             return true;
-        }
-
-        private bool StartAnalyseDrink(GameObject drink)
-        {
-            LogManager.InfoLog(this.GetType(), "Object mounted is a drink : starting analyse of the drink");
-            DrinksController controller = drink.GetComponent<DrinksController>();
-            foreach (var recipe in _wantedDrinkRecipe)
-            {
-                if(CompareDrinks(recipe, controller)) //if one recipe corresponds to the drink, we're good
-                {
-                    LogManager.InfoLog(this.GetType(), "Found corresponding drink recipe : " + recipe.name);
-                    return true;
-                }
-            }
-            return false;
         }
 
         private bool CompareDrinks(DrinkRecipe recipe, DrinksController drinkController)

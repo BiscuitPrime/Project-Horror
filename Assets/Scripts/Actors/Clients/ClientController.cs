@@ -72,15 +72,22 @@ namespace Horror.Clients
         }
 
         /// <summary>
-        /// This function is called when an order is received by the counter, which will indicate it to the client controller (this)
+        /// This function is called when a correct item from the order is received by the counter, which will indicate it to the client controller (this)
         /// </summary>
-        public void ReceiveOrderFromCounter(Recipe recipe)
+        public void ReceiveCorrectOrderFromCounter(Recipe recipe, GameObject food)
         {
             if(_orderDict.ContainsKey(recipe)) //if the recipe received is within the dictionary => then the recipe is set to "received" by the client, who will ""take it""
             {
                 _orderDict[recipe]=true;
+                _counter.GetComponent<MountController>().EndRide();
+                Destroy(food); //To be changed ?
             }
             TestClientSatisfied();
+        }
+
+        public void ReceiveIncorrectOrderFromCounter()
+        {
+            LogManager.InfoLog(this.GetType(), "Incorrect order received from counter");
         }
 
         /// <summary>
@@ -91,7 +98,7 @@ namespace Horror.Clients
             if(!_orderDict.Values.Contains(false))
             {
                 LogManager.InfoLog(this.GetType(), "All recipes have been satisfied : CLIENT IS SATISFIED");
-                Destroy(gameObject);
+                Destroy(gameObject); //TODO : CHANGE THAT
             }
         }
     }
