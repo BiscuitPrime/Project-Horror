@@ -1,3 +1,4 @@
+using Horror.Clients;
 using Horror.DEBUG;
 using Horror.Food;
 using System.Collections;
@@ -16,6 +17,7 @@ namespace Horror.Interactable
     {
         [SerializeField] private FoodRecipe[] _wantedFoodRecipes;
         [SerializeField] private DrinkRecipe[] _wantedDrinkRecipe;
+        private ClientController _curClient;
         private List<GameObject> _foodPile;
 
         private void Awake()
@@ -31,9 +33,18 @@ namespace Horror.Interactable
         {
             _wantedDrinkRecipe = drinkRecipes;
         }
+        public void SetCurrentClient(ClientController client)
+        {
+            _curClient = client;
+        }
 
         public void StartAnalyse(GameObject food) //This whole function is ugly : TODO : REWORK THAT FUNCTION TO BEMORE MODULAR/CLEAN
         {
+            //NEW :
+
+
+
+            // OLD : 
             if(food.GetComponent<DrinksController>() != null)
             {
                 if (StartAnalyseDrink(food))
@@ -80,6 +91,7 @@ namespace Horror.Interactable
                     if (IsFoodPileCorrectRecipe(recipe))
                     {
                         LogManager.InfoLog(this.GetType(), "GOOD RECIPE FOUND : "+recipe.name);
+                        _curClient.ReceiveOrderFromCounter(recipe);
                         return;
                     }
                 }

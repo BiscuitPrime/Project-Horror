@@ -12,7 +12,7 @@ namespace Horror.Food
         public DRINKS_BASE Base;
     }
 
-    public abstract class ReadOnlyDrinkRecipe : ScriptableObject
+    public abstract class ReadOnlyDrinkRecipe : Recipe
     {
         public abstract DrinkData DrinkRecipeData { get; }
     }

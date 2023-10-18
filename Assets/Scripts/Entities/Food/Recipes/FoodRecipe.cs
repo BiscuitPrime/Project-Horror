@@ -12,7 +12,7 @@ namespace Horror.Food
         public FOOD_STATES FoodState;
     }
     
-    public abstract class ReadOnlyFoodRecipe : ScriptableObject
+    public abstract class ReadOnlyFoodRecipe : Recipe
     {
         public abstract FoodItemType[] FoodPile { get; }
     }
