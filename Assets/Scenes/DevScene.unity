@@ -1043,8 +1043,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc7d4e85812c0b74ab2e43fa90b1b629, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _order: {fileID: 11400000, guid: e09298539ae9e534291056120772e316, type: 2}
-  _scale: 0
+  _order: {fileID: 11400000, guid: a8c4016aade26f742ac4879743be29b0, type: 2}
 --- !u!65 &1155771582
 BoxCollider:
   m_ObjectHideFlags: 0

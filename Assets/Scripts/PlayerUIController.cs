@@ -54,5 +54,6 @@ namespace Horror.Player
             _clientText.gameObject.SetActive(false);
             _clientTextBackgroundBox.gameObject.SetActive(false);
         }
+
     }
 }

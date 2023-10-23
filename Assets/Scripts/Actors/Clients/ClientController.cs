@@ -91,7 +91,8 @@ namespace Horror.Clients
         /// </summary>
         public void ReceiveCorrectOrderFromCounter(Recipe recipe, GameObject food)
         {
-            if(_orderDict.ContainsKey(recipe)) //if the recipe received is within the dictionary => then the recipe is set to "received" by the client, who will ""take it""
+            LogManager.InfoLog(this.GetType(), "Correct order received from counter");
+            if (_orderDict.ContainsKey(recipe)) //if the recipe received is within the dictionary => then the recipe is set to "received" by the client, who will ""take it""
             {
                 _orderDict[recipe]=true;
                 _counter.GetComponent<MountController>().EndRide();
@@ -100,10 +101,31 @@ namespace Horror.Clients
             TestClientSatisfied();
         }
 
+        /// <summary>
+        /// This function is called when a FAILED item (correct item + wrong cooking) from the order is received by the counter, which will indicate it to the client controller (this)
+        /// </summary>
+        public void ReceiveFailedOrderFromCounter(Recipe recipe, GameObject food)
+        {
+            LogManager.InfoLog(this.GetType(), "Failed order received from counter");
+            if (_orderDict.ContainsKey(recipe)) //if the recipe received is within the dictionary => then the recipe is set to "received" by the client, who will ""take it""
+            {
+                _orderDict[recipe] = true;
+                _counter.GetComponent<MountController>().EndRide();
+                Destroy(food); //To be changed ?
+            }
+            StartCoroutine(PlayerUIController.Instance.DisplayClientText("Huh... Well, that's a bit disappointing..."));
+            TestClientSatisfied();
+        }
+
+        /// <summary>
+        /// This function is called when an incorrect item from the order is received by the counter, which will indicate it to the client controller (this)
+        /// </summary>
         public void ReceiveIncorrectOrderFromCounter()
         {
             LogManager.InfoLog(this.GetType(), "Incorrect order received from counter");
+            StartCoroutine(PlayerUIController.Instance.DisplayClientText("What is this ?? I don't want it..."));
         }
+
 
         /// <summary>
         /// Function will test if the client has been satisfied
@@ -113,7 +135,8 @@ namespace Horror.Clients
             if(!_orderDict.Values.Contains(false))
             {
                 LogManager.InfoLog(this.GetType(), "All recipes have been satisfied : CLIENT IS SATISFIED");
-                Destroy(gameObject); //TODO : CHANGE THAT
+                StartCoroutine(PlayerUIController.Instance.DisplayClientText("Thank you"));
+                gameObject.SetActive(false); //TODO : CHANGE THAT
             }
         }
     }
