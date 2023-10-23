@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Assertions;
+using UnityEngine.UI;
 
 namespace Horror.Player
 {
@@ -33,20 +34,25 @@ namespace Horror.Player
         #region VARIABLES
         [Header("UI Elements")]
         [SerializeField, InspectorName("Client Text")] private TextMeshProUGUI _clientText;
+        [SerializeField, InspectorName("Client Background Box")] private Image _clientTextBackgroundBox;
         #endregion
 
         private void Start()
         {
             Assert.IsNotNull(_clientText);
+            Assert.IsNotNull(_clientTextBackgroundBox);
             _clientText.gameObject.SetActive(false);
+            _clientTextBackgroundBox.gameObject.SetActive(false);
         }
 
         public IEnumerator DisplayClientText(string text)
         {
             _clientText.text = text;
             _clientText.gameObject.SetActive(true);
+            _clientTextBackgroundBox.gameObject.SetActive(true);
             yield return new WaitForSeconds(2f);
             _clientText.gameObject.SetActive(false);
+            _clientTextBackgroundBox.gameObject.SetActive(false);
         }
     }
 }

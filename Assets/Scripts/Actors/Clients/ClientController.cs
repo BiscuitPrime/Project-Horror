@@ -16,9 +16,9 @@ namespace Horror.Clients
     {
         #region VARIABLES
         [SerializeField, InspectorName("Order")] private ClientOrder _order;
-        [SerializeField, InspectorName("Scale")] private int _scale;
         private GameObject _counter;
         private Dictionary<Recipe, bool> _orderDict;
+        private bool _hasGivenOrder;
         #endregion
 
         #region SETTERS AND GETTERS
@@ -29,7 +29,7 @@ namespace Horror.Clients
         private void Awake()
         {
             _orderDict = new Dictionary<Recipe, bool>();
-            _scale = 100;
+            _hasGivenOrder = false;
         }
 
         private void Start()
@@ -44,16 +44,31 @@ namespace Horror.Clients
             }
         }
 
+        private string ObtainFormulatedOrder()
+        {
+            string formulatedOrder = "";
+            foreach (var item in _orderDict.Keys)
+            {
+                formulatedOrder += item.name.ToString() + ", ";
+            }
+            return formulatedOrder;
+        }
+
         public void InteractionTriggered()
         {
-            LogManager.InfoLog(this.GetType(), "Interaction called with the client, displaying order and transmitting it");
-            string formulatedOrder = "";
-            foreach(var item in _orderDict.Keys)
+            string formulatedOrder = ObtainFormulatedOrder();
+            if (!_hasGivenOrder)
             {
-                formulatedOrder += item.name.ToString()+", ";
+                LogManager.InfoLog(this.GetType(), "Interaction called with the client, displaying order and transmitting it");
+                StartCoroutine(PlayerUIController.Instance.DisplayClientText("Here is my order please : "+formulatedOrder.Substring(0, formulatedOrder.Length - 3)));
+                TransmitOrderToCounter();
+                _hasGivenOrder=true;
             }
-            StartCoroutine(PlayerUIController.Instance.DisplayClientText("Here is my order please : "+formulatedOrder.Substring(0, formulatedOrder.Length - 3)));
-            TransmitOrderToCounter();
+            else //if the client has already given the order, he just repeats it 
+            {
+                LogManager.InfoLog(this.GetType(), "Interaction called with the client, displaying order AGAIN");
+                StartCoroutine(PlayerUIController.Instance.DisplayClientText("I already gave you my order... "+'\n'+"But alright, here it is again : " + formulatedOrder.Substring(0, formulatedOrder.Length - 3)));
+            }
         }
 
         /// <summary>
